@@ -1,0 +1,19 @@
+pair,type,calibrator,train_throughput,lam,converged
+large,prose,oracle (true beta),1.1397249237221354,1.0,False
+large,prose,isotonic,1.0798273117109598,1.0798273117109598,True
+large,prose,logistic,1.0757394346537208,1.0757394346537208,True
+large,maths,oracle (true beta),1.125741660279823,1.125741660279823,True
+large,maths,isotonic,1.0942562860258747,1.0,False
+large,maths,logistic,1.0928091102232875,1.0,False
+large,code,oracle (true beta),1.1678581986386882,1.1678581986386882,True
+large,code,isotonic,1.1081599197791423,1.1081599197791423,True
+large,code,logistic,1.1166812694064636,1.0,False
+medium,prose,oracle (true beta),1.2182226124193074,1.2182226124193074,True
+medium,prose,isotonic,1.163386322305596,1.163386322305596,True
+medium,prose,logistic,1.1624879316612866,1.1603426820704708,False
+medium,maths,oracle (true beta),1.246507406289119,1.246507406289119,True
+medium,maths,isotonic,1.1789523064420204,1.1789523064420204,True
+medium,maths,logistic,1.1704367673427485,1.1704367673427485,True
+medium,code,oracle (true beta),1.2780171438538837,1.2780171438538837,True
+medium,code,isotonic,1.1924900711222866,1.1924900711222866,True
+medium,code,logistic,1.1864935450370286,1.1864935450370286,True

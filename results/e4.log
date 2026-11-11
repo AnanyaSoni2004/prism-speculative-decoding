@@ -1,0 +1,110 @@
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+W1111 15:50:15.322000 53370 .venv/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
+[e4] seeds: {'model_c_fit': 7001, 'model_c_eval': [101, 202, 303, 404, 505], 'e3_split': 42, 'e3_replay': [11, 22, 33, 44, 55]}
+Loading weights:   0%|          | 0/76 [00:00<?, ?it/s]Loading weights: 100%|██████████| 76/76 [00:00<00:00, 14823.62it/s]
+Loading weights:   0%|          | 0/436 [00:00<?, ?it/s]Loading weights: 100%|██████████| 436/436 [00:00<00:00, 8028.57it/s]
+Loading weights:   0%|          | 0/76 [00:00<?, ?it/s]Loading weights: 100%|██████████| 76/76 [00:00<00:00, 9465.42it/s]
+Loading weights:   0%|          | 0/292 [00:00<?, ?it/s]Loading weights: 100%|██████████| 292/292 [00:00<00:00, 8678.63it/s]
+## Follow-up
+
+Produced by `e4_followup.py`, appended after the main report. Every number below is read from that run's output files (`e4_*.csv`, `e4_convexity_check.json`, `timing_verify.csv`, `table3_gpt2_wallclock.*`).
+
+### F1. Model C: naive adaptive rule and hard-state round starts
+
+Naive rule: γ = largest k ≤ 40 with α_state^k ≥ λc, using the state at round start as if it lasted the whole round; λ fitted by fixed-point iteration on the fit seed; evaluated on the same 5 seeds as E2 (best fixed γ reproduces `e2_modelC.csv` exactly: True).
+
+| s | best fixed (γ) | naive adaptive | naive γ easy / hard | naive gain | expected | share of rounds starting hard (best fixed γ) | expected |
+|---|---|---|---|---|---|---|---|
+| 0.01 | 2.043 ± 0.037 (5) | 2.259 ± 0.054 | 40 / 2 | +10.6% | ≈+12% | 75.3% ± 1.3 | ≈77% |
+| 0.05 | 2.062 ± 0.012 (5) | 2.114 ± 0.020 | 40 / 2 | +2.6% | ≈+2% | 74.3% ± 0.4 | ≈75% |
+| 0.2 | 2.121 ± 0.012 (5) | 1.716 ± 0.014 | 40 / 2 | -19.1% | ≈-18% | 68.9% ± 0.4 | ≈69% |
+
+- (a) Naive-rule gain **matches** the expected values (tolerance ±2 percentage points).
+- (b) Hard-start share **matches** the expected values (tolerance ±2 percentage points). The stationary share of *positions* in the hard state is 50%, so rounds over-sample the hard regime.
+- Cap flag: the naive rule's γ hits the cap of 40 at s = 0.01, 0.05, 0.2 (0.95^k ≥ λc holds up to k ≈ 43 at s = 0.01). So in the easy state the naive rule's γ is set by the cap, not by the rule.
+
+### F2. Harmonic-mean prediction for Model C
+
+At the landmark γ = 5 (stationary mean α = 0.675), H = (½/g(0.95) + ½/g(0.4))⁻¹ ÷ (γc + 1) with g(α) = Σ_(k=0..γ) α^k.
+
+| s | landmark | H | simulated fixed-γ | H vs landmark | simulated vs landmark | simulated vs H |
+|---|---|---|---|---|---|---|
+| 0.01 | 2.229 | 2.022 | 2.043 ± 0.037 | -9.3% | -8.3% | +1.0% |
+| 0.05 | 2.229 | 2.022 | 2.062 ± 0.012 | -9.3% | -7.5% | +1.9% |
+| 0.2 | 2.229 | 2.022 | 2.121 ± 0.012 | -9.3% | -4.8% | +4.9% |
+
+- H is 9.3% below the landmark at γ = 5: **matches** the expected ≈9.3% at γ = 5. H is the s → 0 limit (each regime long enough to act as its own stream). As s grows, the simulation moves from H toward the landmark.
+- Convexity check 2g′² − g·g″ ≥ −1e-12 on [0, 1] (100,001 points, γ = 1…60): minimum -1.07e-14 at γ = 52, α = 0.4078 → **passes**. As an exact companion check, every integer coefficient of 2g′² − g·g″ is non-negative for γ = 1…60: True. Because (1/g)″ = (2g′² − g·g″)/g³, 1/g is convex, so by Jensen the harmonic-type average never exceeds the landmark.
+
+### F3. Re-timing of verify passes (one target and the draft loaded at a time)
+
+One cached target pass over m new tokens after a 32-token prefix, 20 repeats after 5 warm-ups. v(m) = mean time ÷ mean time at m = 1.
+
+| m | large: v(m) mean (median) | large: ms | medium: v(m) mean (median) | medium: ms |
+|---|---|---|---|---|
+| 1 | 1.00 (1.00) | 53.5 | 1.00 (1.00) | 22.7 |
+| 2 | 1.65 (1.59) | 88.1 | 1.21 (1.23) | 27.5 |
+| 3 | 1.68 (1.68) | 89.7 | 1.22 (1.20) | 27.5 |
+| 4 | 1.66 (1.67) | 88.8 | 1.33 (1.24) | 30.2 |
+| 5 | 1.62 (1.64) | 86.7 | 1.27 (1.27) | 28.7 |
+| 6 | 1.58 (1.55) | 84.5 | 1.34 (1.35) | 30.3 |
+| 7 | 1.70 (1.74) | 90.9 | 1.30 (1.31) | 29.6 |
+| 8 | 1.72 (1.74) | 91.8 | 1.32 (1.33) | 29.9 |
+| 9 | 1.70 (1.73) | 91.0 | 1.34 (1.34) | 30.3 |
+
+- large: available RAM 1.37 GB before / 0.56 GB after timing; swap used 3.94 → 1.61 GB. 8-token ratio from E3 in this same run (both targets loaded in turn, `timing.csv`) 1.77×; isolated now 1.72×.
+
+- medium: available RAM 1.42 GB before / 2.06 GB after timing; swap used 1.67 → 1.45 GB. 8-token ratio from E3 in this same run (both targets loaded in turn, `timing.csv`) 1.30×; isolated now 1.32×.
+- The earlier run's 4.55× (gpt2-large, m = 8) is not in these results files any more; neither this run's E3 timing (1.77×) nor the isolated timing (1.72×) reproduces it, which fits a transient effect such as memory pressure but does not prove it. Even in isolation only 1.4 GB RAM was free with gpt2-large loaded, and v(m) for gpt2-large is not monotone in m (a non-monotone v means noisy timing, not a real cost structure).
+
+### F4. Wall-clock replay (Table 3, second version)
+
+Round cost T = γc + v(γ + 1), with c from `timing.csv` and v(m) from F3 (v(1) = 1). γ is capped at 8 because v is measured only up to m = 9. Best fixed γ, λ and calibrators are re-selected on the training half under this cost. The adaptive rule drafts the k-th token while ∏β ≥ λ·Δ_k, where Δ_k = c + v(k+1) − v(k) is that token's marginal cost. Test half, mean ± SD over 5 replay seeds, in units of one cached target step.
+
+- large: c = 0.123; T(γ) for γ = 0…8: 1.00, 1.77, 1.92, 2.03, 2.11, 2.20, 2.44, 2.58, 2.69
+- medium: c = 0.245; T(γ) for γ = 0…8: 1.00, 1.46, 1.71, 2.07, 2.25, 2.56, 2.78, 3.04, 3.30
+
+| pair | type | c | no_spec | fixed_4 | landmark | best_fixed | adaptive_oracle | adaptive_realistic | landmark_gamma | best_fixed_gamma | realistic_calibrator | realistic_recovery_pct |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| large | code | 0.1232 | 1.000 ± 0.000 | 1.106 ± 0.012 | 1.083 ± 0.009 | 1.106 ± 0.012 | 1.200 ± 0.004 | 1.132 ± 0.005 | 3 | 4 | logistic, lam=1.000 | 28.1 |
+| large | maths | 0.1232 | 1.000 ± 0.000 | 1.086 ± 0.005 | 1.069 ± 0.006 | 1.086 ± 0.005 | 1.152 ± 0.005 | 1.112 ± 0.004 | 3 | 4 | isotonic, lam=1.000 | 38.9 |
+| large | prose | 0.1232 | 1.000 ± 0.000 | 1.066 ± 0.005 | 1.051 ± 0.003 | 1.066 ± 0.005 | 1.135 ± 0.004 | 1.070 ± 0.003 | 3 | 4 | isotonic, lam=1.080 | 6.3 |
+| medium | code | 0.2452 | 1.000 ± 0.000 | 1.080 ± 0.007 | 1.186 ± 0.005 | 1.186 ± 0.005 | 1.300 ± 0.006 | 1.204 ± 0.002 | 2 | 2 | isotonic, lam=1.192 | 15.6 |
+| medium | maths | 0.2452 | 1.000 ± 0.000 | 1.078 ± 0.004 | 1.184 ± 0.003 | 1.184 ± 0.003 | 1.264 ± 0.006 | 1.189 ± 0.003 | 2 | 2 | isotonic, lam=1.179 | 6.8 |
+| medium | prose | 0.2452 | 1.000 ± 0.000 | 1.050 ± 0.009 | 1.162 ± 0.009 | 1.162 ± 0.009 | 1.214 ± 0.007 | 1.165 ± 0.008 | 2 | 2 | isotonic, lam=1.163 | 6 |
+
+Change from the linear-cost Table 3 (best fixed γ and adaptive oracle, test half):
+
+| pair | type | best fixed: linear → wall-clock | adaptive oracle: linear → wall-clock |
+|---|---|---|---|
+| large | prose | 1.556 (γ=3) → 1.066 (γ=4) | 1.622 → 1.135 |
+| large | maths | 1.582 (γ=3) → 1.086 (γ=4) | 1.674 → 1.152 |
+| large | code | 1.602 (γ=3) → 1.106 (γ=4) | 1.722 → 1.200 |
+| medium | prose | 1.329 (γ=2) → 1.162 (γ=2) | 1.379 → 1.214 |
+| medium | maths | 1.354 (γ=2) → 1.184 (γ=2) | 1.430 → 1.264 |
+| medium | code | 1.357 (γ=2) → 1.186 (γ=2) | 1.459 → 1.300 |
+
+- Slower than plain decoding (throughput < 1) under wall-clock cost: none of the policies in any pair/type cell. The re-selected best fixed γ is never slower than plain decoding.
+- Best fixed γ hits the cap of 8 in 0 cell(s).
+- λ fixed-point fits that cycled instead of converging (best visited λ kept): 5 of 18 — large/prose oracle (true beta) (λ = 1.000); large/maths isotonic (λ = 1.000); large/maths logistic (λ = 1.000); large/code logistic (λ = 1.000); medium/prose logistic (λ = 1.160).
+
+### F5. Model D with posterior-mean shrinkage
+
+The policy uses E[α | α̂] under the known Beta(7, 3) prior, computed on the 20,001-point α grid. Gaussian likelihood for interior α̂; the clipped endpoints 0.01 and 0.99 are treated as censored. λ is refit per σ on the fit seed; 200k rounds × 5 seeds. The raw-α̂ policy reproduces `e2_modelD.csv` exactly: True.
+
+| σ | raw α̂: throughput | raw: share of oracle gain kept | shrunk: throughput | shrunk: share of oracle gain kept |
+|---|---|---|---|---|
+| 0 | 2.878 ± 0.002 | 100% | 2.878 ± 0.002 | 100% |
+| 0.05 | 2.786 ± 0.002 | 72% | 2.797 ± 0.001 | 75% |
+| 0.1 | 2.615 ± 0.003 | 19% | 2.702 ± 0.001 | 46% |
+| 0.2 | 2.300 ± 0.003 | -79% | 2.596 ± 0.001 | 13% |
+
+Oracle 2.877, best fixed 2.556 (exact, Model A, κ = 10). No expected values were given for this item.
+
+### F6. Figures
+
+No table that `figures.py` reads (e1_*, e2_modelA_main, e3_beta_stats, timing.csv, traces, e3_fig4_example) was changed by this follow-up; E4 writes only new files, so the figures were not regenerated.
+
+E4 runtime: 87 s.
+
+[e4] finished in 86.8 s

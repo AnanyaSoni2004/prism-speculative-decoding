@@ -1,0 +1,39 @@
+check,formula_value,simulated_value,abs_error,pass,tolerance
+1a exact output law: max|out - p| over 1000 pairs,0.0,5.551115123125783e-17,5.551115123125783e-17,True,< 1e-12
+"1b sampled draws (200k): L1(empirical, p); formula = expected L1 of exact sampling",0.010705066742609,0.010475678869443665,0.00022938787316533447,True,< 2x expected sampling L1
+2 beta = 1 - 0.5||p-q||_1: max error over 1000 pairs,0.0,5.551115123125783e-16,5.551115123125783e-16,True,< 1e-12
+3 E[N] alpha=0.5 gamma=1 (200k rounds),1.5,1.501835,0.001835000000000031,True,< 4 SE (0.0045)
+3 E[N] alpha=0.5 gamma=3 (200k rounds),1.875,1.873825,0.001174999999999926,True,< 4 SE (0.0094)
+3 E[N] alpha=0.5 gamma=5 (200k rounds),1.96875,1.974735,0.005984999999999907,True,< 4 SE (0.0115)
+3 E[N] alpha=0.5 gamma=10 (200k rounds),1.9990234375,1.99839,0.0006334374999998893,True,< 4 SE (0.0125)
+3 E[N] alpha=0.7 gamma=1 (200k rounds),1.6999999999999997,1.70041,0.0004100000000002435,True,< 4 SE (0.0041)
+3 E[N] alpha=0.7 gamma=3 (200k rounds),2.5329999999999995,2.534125,0.0011250000000004867,True,< 4 SE (0.0111)
+3 E[N] alpha=0.7 gamma=5 (200k rounds),2.9411699999999996,2.942905,0.0017350000000004862,True,< 4 SE (0.0163)
+3 E[N] alpha=0.7 gamma=10 (200k rounds),3.2674224418999995,3.263975,0.0034474418999996814,True,< 4 SE (0.0227)
+3 E[N] alpha=0.8 gamma=1 (200k rounds),1.7999999999999998,1.799265,0.0007349999999999302,True,< 4 SE (0.0036)
+3 E[N] alpha=0.8 gamma=3 (200k rounds),2.9520000000000004,2.94893,0.0030700000000005723,True,< 4 SE (0.0108)
+3 E[N] alpha=0.8 gamma=5 (200k rounds),3.68928,3.685785,0.003495000000000026,True,< 4 SE (0.0176)
+3 E[N] alpha=0.8 gamma=10 (200k rounds),4.570503270400001,4.56909,0.0014132704000004992,True,< 4 SE (0.0293)
+3 E[N] alpha=0.9 gamma=1 (200k rounds),1.9,1.900235,0.00023499999999998522,True,< 4 SE (0.0027)
+3 E[N] alpha=0.9 gamma=3 (200k rounds),3.4390000000000005,3.435255,0.0037450000000003314,True,< 4 SE (0.0091)
+3 E[N] alpha=0.9 gamma=5 (200k rounds),4.68559,4.688905,0.003314999999999735,True,< 4 SE (0.0162)
+3 E[N] alpha=0.9 gamma=10 (200k rounds),6.861894039100001,6.850585,0.01130903910000125,True,< 4 SE (0.0338)
+4 gamma* alpha=0.6 c=0.05: Lambert W vs real grid (step 1e-4),4.064803551921489,4.0648,3.5519214893753315e-06,True,<= 1e-4
+4 best integer gamma alpha=0.6 c=0.05: floor/ceil of gamma* vs integer search,4.0,4.0,0.0,True,exact
+4 best integer speedup alpha=0.6 c=0.05,1.9213333333333336,1.9213333333333336,0.0,True,< 1e-12
+4 gamma* alpha=0.8 c=0.05: Lambert W vs real grid (step 1e-4),7.856654458870695,7.8567,4.554112930499343e-05,True,<= 1e-4
+4 best integer gamma alpha=0.8 c=0.05: floor/ceil of gamma* vs integer search,8.0,8.0,0.0,True,exact
+4 best integer speedup alpha=0.8 c=0.05,3.0920795428571433,3.0920795428571433,0.0,True,< 1e-12
+4 gamma* alpha=0.8 c=0.2: Lambert W vs real grid (step 1e-4),3.903529092521892,3.9035,2.9092521891982415e-05,True,<= 1e-4
+4 best integer gamma alpha=0.8 c=0.2: floor/ceil of gamma* vs integer search,4.0,4.0,0.0,True,exact
+4 best integer speedup alpha=0.8 c=0.2,1.8675555555555556,1.8675555555555556,0.0,True,< 1e-12
+4 gamma* alpha=0.9 c=0.02: Lambert W vs real grid (step 1e-4),19.058398408192367,19.058400000000002,1.5918076350374122e-06,True,<= 1e-4
+4 best integer gamma alpha=0.9 c=0.02: floor/ceil of gamma* vs integer search,19.0,19.0,0.0,True,exact
+4 best integer speedup alpha=0.9 c=0.02,6.365386560937906,6.365386560937906,0.0,True,< 1e-12
+"4 known value: gamma*(0.8, 0.05) = 7.8567",7.8567,7.856654458870695,4.554112930499343e-05,True,< 5e-5
+"4 known value: S at best integer (0.8, 0.05) = 3.092",3.092,3.0920795428571433,7.954285714317777e-05,True,< 5e-4
+5 max_{gamma>=1} S > 1 iff alpha > c: disagreeing points on 99x99 grid (S>1+1e-9),0.0,0.0,0.0,True,"== 0; raw S>1 test gives 15, all on alpha=c where S(1)=1 up to 1e-15 rounding"
+6 known value: exact E[N] m=0.7 kappa=5 gamma=6 = 3.4894,3.4894,3.4893554687499995,4.453125000036806e-05,True,< 5e-5
+6i persistent alpha: simulation (2M rounds) vs exact sum E[alpha^k],3.4893554687499995,3.485347,0.004008468749999494,True,< 4 SE (0.0067)
+6ii exact E[N] >= landmark at alpha=m (formula=landmark 3.0588),3.0588189999999997,3.4893554687499995,0.43053646874999973,True,exact >= landmark
+6iii per-token independent alpha: simulation (2M) vs landmark 3.0588,3.0588189999999997,3.0579525,0.0008664999999998813,True,< 4 SE (0.0057)

@@ -1,0 +1,268 @@
+== tests
+............                                                             [100%]
+12 passed in 0.87s
+== E0
+[e0] seeds: 20261110
+                                                                             check  formula_value  simulated_value    abs_error  pass
+                                 1a exact output law: max|out - p| over 1000 pairs       0.000000     5.551115e-17 5.551115e-17  True
+1b sampled draws (200k): L1(empirical, p); formula = expected L1 of exact sampling       0.010705     1.047568e-02 2.293879e-04  True
+                              2 beta = 1 - 0.5||p-q||_1: max error over 1000 pairs       0.000000     5.551115e-16 5.551115e-16  True
+                                            3 E[N] alpha=0.5 gamma=1 (200k rounds)       1.500000     1.501835e+00 1.835000e-03  True
+                                            3 E[N] alpha=0.5 gamma=3 (200k rounds)       1.875000     1.873825e+00 1.175000e-03  True
+                                            3 E[N] alpha=0.5 gamma=5 (200k rounds)       1.968750     1.974735e+00 5.985000e-03  True
+                                           3 E[N] alpha=0.5 gamma=10 (200k rounds)       1.999023     1.998390e+00 6.334375e-04  True
+                                            3 E[N] alpha=0.7 gamma=1 (200k rounds)       1.700000     1.700410e+00 4.100000e-04  True
+                                            3 E[N] alpha=0.7 gamma=3 (200k rounds)       2.533000     2.534125e+00 1.125000e-03  True
+                                            3 E[N] alpha=0.7 gamma=5 (200k rounds)       2.941170     2.942905e+00 1.735000e-03  True
+                                           3 E[N] alpha=0.7 gamma=10 (200k rounds)       3.267422     3.263975e+00 3.447442e-03  True
+                                            3 E[N] alpha=0.8 gamma=1 (200k rounds)       1.800000     1.799265e+00 7.350000e-04  True
+                                            3 E[N] alpha=0.8 gamma=3 (200k rounds)       2.952000     2.948930e+00 3.070000e-03  True
+                                            3 E[N] alpha=0.8 gamma=5 (200k rounds)       3.689280     3.685785e+00 3.495000e-03  True
+                                           3 E[N] alpha=0.8 gamma=10 (200k rounds)       4.570503     4.569090e+00 1.413270e-03  True
+                                            3 E[N] alpha=0.9 gamma=1 (200k rounds)       1.900000     1.900235e+00 2.350000e-04  True
+                                            3 E[N] alpha=0.9 gamma=3 (200k rounds)       3.439000     3.435255e+00 3.745000e-03  True
+                                            3 E[N] alpha=0.9 gamma=5 (200k rounds)       4.685590     4.688905e+00 3.315000e-03  True
+                                           3 E[N] alpha=0.9 gamma=10 (200k rounds)       6.861894     6.850585e+00 1.130904e-02  True
+                     4 gamma* alpha=0.6 c=0.05: Lambert W vs real grid (step 1e-4)       4.064804     4.064800e+00 3.551921e-06  True
+     4 best integer gamma alpha=0.6 c=0.05: floor/ceil of gamma* vs integer search       4.000000     4.000000e+00 0.000000e+00  True
+                                           4 best integer speedup alpha=0.6 c=0.05       1.921333     1.921333e+00 0.000000e+00  True
+                     4 gamma* alpha=0.8 c=0.05: Lambert W vs real grid (step 1e-4)       7.856654     7.856700e+00 4.554113e-05  True
+     4 best integer gamma alpha=0.8 c=0.05: floor/ceil of gamma* vs integer search       8.000000     8.000000e+00 0.000000e+00  True
+                                           4 best integer speedup alpha=0.8 c=0.05       3.092080     3.092080e+00 0.000000e+00  True
+                      4 gamma* alpha=0.8 c=0.2: Lambert W vs real grid (step 1e-4)       3.903529     3.903500e+00 2.909252e-05  True
+      4 best integer gamma alpha=0.8 c=0.2: floor/ceil of gamma* vs integer search       4.000000     4.000000e+00 0.000000e+00  True
+                                            4 best integer speedup alpha=0.8 c=0.2       1.867556     1.867556e+00 0.000000e+00  True
+                     4 gamma* alpha=0.9 c=0.02: Lambert W vs real grid (step 1e-4)      19.058398     1.905840e+01 1.591808e-06  True
+     4 best integer gamma alpha=0.9 c=0.02: floor/ceil of gamma* vs integer search      19.000000     1.900000e+01 0.000000e+00  True
+                                           4 best integer speedup alpha=0.9 c=0.02       6.365387     6.365387e+00 0.000000e+00  True
+                                         4 known value: gamma*(0.8, 0.05) = 7.8567       7.856700     7.856654e+00 4.554113e-05  True
+                              4 known value: S at best integer (0.8, 0.05) = 3.092       3.092000     3.092080e+00 7.954286e-05  True
+ 5 max_{gamma>=1} S > 1 iff alpha > c: disagreeing points on 99x99 grid (S>1+1e-9)       0.000000     0.000000e+00 0.000000e+00  True
+                          6 known value: exact E[N] m=0.7 kappa=5 gamma=6 = 3.4894       3.489400     3.489355e+00 4.453125e-05  True
+               6i persistent alpha: simulation (2M rounds) vs exact sum E[alpha^k]       3.489355     3.485347e+00 4.008469e-03  True
+                   6ii exact E[N] >= landmark at alpha=m (formula=landmark 3.0588)       3.058819     3.489355e+00 4.305365e-01  True
+              6iii per-token independent alpha: simulation (2M) vs landmark 3.0588       3.058819     3.057952e+00 8.665000e-04  True
+
+E0: 38/38 checks passed
+[e0] finished in 0.7 s
+== E1
+[e1] seeds: none (deterministic)
+   c  alpha  gamma_star_real  gamma_best_int  best_speedup  speedup_at_real  hits_cap
+0.05    0.5         3.087734               3      1.630435         1.630628     False
+0.05    0.6         4.064804               4      1.921333         1.921420     False
+0.05    0.7         5.480313               6      2.352938         2.357046     False
+0.05    0.8         7.856654               8      3.092080         3.092330     False
+0.05    0.9        13.291588              13      4.674134         4.674775     False
+[e1] finished in 0.0 s
+== E2
+[e2] seeds: {'fit': 7001, 'eval': [101, 202, 303, 404, 505]}
+Model A main (m=0.7, c=0.05)
+  kappa  sd_alpha  landmark_pred  landmark_gamma  best_fixed_true  best_fixed_gamma  adaptive_oracle  gain_pct  landmark_error_pct  best_fixed_hits_cap  adaptive_mass_at_cap
+   inf    0.0000         2.3529               6           2.3529                 6           2.3529    0.0000              0.0000                False                0.0000
+  50.0    0.0642         2.3529               6           2.3940                 6           2.4372    1.8031              1.7465                False                0.0000
+  20.0    0.1000         2.3529               6           2.4517                 6           2.5791    5.1988              4.1969                False                0.0002
+  10.0    0.1382         2.3529               6           2.5556                 7           2.8766   12.5626              7.8848                False                0.0072
+   5.0    0.1871         2.3529               6           2.7828                10           3.6188   30.0433             14.0753                False                0.0437
+cap hits (any setting): 0 best-fixed; 45 settings with adaptive mass at cap
+
+Model B
+  kappa  landmark_pred  fixed_at_landmark_mean  best_fixed_mean  best_fixed_gamma  history_gain_pct  lookahead_gain_pct  landmark_error_pct
+    50         2.3529                  2.3534           2.3534                 6           -0.0038              0.3975              0.0193
+    20         2.3529                  2.3527           2.3527                 6           -0.0202              0.8089             -0.0110
+    10         2.3529                  2.3526           2.3526                 6           -0.0873              1.4901             -0.0144
+     5         2.3529                  2.3516           2.3514                 5           -0.2346              2.8183             -0.0572
+
+Model C
+  switch_prob  best_fixed_gamma  best_fixed_mean  best_fixed_sd  adaptive_state_mean  adaptive_state_sd  state_gain_pct  adaptive_per_token_mean  per_token_gain_pct  landmark_error_pct
+        0.01                 5           2.0433         0.0369               2.3247             0.0620         13.7719                   2.3034             12.7292             -8.3184
+        0.05                 5           2.0616         0.0116               2.3054             0.0235         11.8275                   2.3280             12.9262             -7.4996
+        0.20                 5           2.1212         0.0120               2.2330             0.0209          5.2717                   2.3272              9.7125             -4.8229
+
+Model D
+  sigma  throughput_mean  throughput_sd  gain_pct  gain_survival_pct
+  0.00           2.8777         0.0017   12.6049           100.3369
+  0.05           2.7863         0.0019    9.0306            71.8845
+  0.10           2.6152         0.0026    2.3320            18.5634
+  0.20           2.3004         0.0029   -9.9853           -79.4839
+[e2] finished in 38.8 s
+== E3
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[transformers] Token indices sequence length is longer than the specified maximum sequence length for this model (1140 > 1024). Running this sequence through the model will result in indexing errors
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+W1111 15:45:12.885000 53185 .venv/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
+[e3] seeds: {'split': 42, 'data': 1234, 'replay': [11, 22, 33, 44, 55]}
+passages: {'prose': {'candidates': 2183, 'long_enough': 662, 'used': 100}, 'maths': {'candidates': 1319, 'long_enough': 558, 'used': 100}, 'code': {'candidates': 164, 'long_enough': 133, 'used': 100}}
+device: mps
+Loading weights:   0%|          | 0/76 [00:00<?, ?it/s]Loading weights: 100%|██████████| 76/76 [00:00<00:00, 9445.51it/s]
+Loading weights:   0%|          | 0/436 [00:00<?, ?it/s]Loading weights: 100%|██████████| 436/436 [00:00<00:00, 4946.18it/s]
+[large] c = 0.123; verify 8 vs 1 token = 1.77x
+  prose: mean beta 0.590, lag1 acf 0.208
+  maths: mean beta 0.601, lag1 acf 0.182
+  code: mean beta 0.604, lag1 acf 0.200
+Loading weights:   0%|          | 0/292 [00:00<?, ?it/s]Loading weights: 100%|██████████| 292/292 [00:00<00:00, 7143.03it/s]
+[medium] c = 0.245; verify 8 vs 1 token = 1.30x
+  prose: mean beta 0.613, lag1 acf 0.189
+  maths: mean beta 0.627, lag1 acf 0.163
+  code: mean beta 0.628, lag1 acf 0.232
+  pair  type             policy               gamma  thr_mean   thr_sd
+ large prose            no_spec                   0  1.000000 0.000000
+ large prose            fixed_4                   4  1.509014 0.006696
+ large prose           landmark                   3  1.555801 0.004843
+ large prose         best_fixed                   3  1.555801 0.004843
+ large prose    adaptive_oracle           lam=1.616  1.622232 0.007963
+ large prose adaptive_realistic isotonic, lam=1.571  1.573260 0.005730
+ large maths            no_spec                   0  1.000000 0.000000
+ large maths            fixed_4                   4  1.538177 0.007147
+ large maths           landmark                   3  1.582445 0.008902
+ large maths         best_fixed                   3  1.582445 0.008902
+ large maths    adaptive_oracle           lam=1.647  1.674135 0.007617
+ large maths adaptive_realistic isotonic, lam=1.580  1.606445 0.006827
+ large  code            no_spec                   0  1.000000 0.000000
+ large  code            fixed_4                   4  1.565966 0.016990
+ large  code           landmark                   3  1.602384 0.012167
+ large  code         best_fixed                   3  1.602384 0.012167
+ large  code    adaptive_oracle           lam=1.666  1.722291 0.014672
+ large  code adaptive_realistic isotonic, lam=1.585  1.644216 0.012352
+medium prose            no_spec                   0  1.000000 0.000000
+medium prose            fixed_4                   4  1.190530 0.009877
+medium prose           landmark                   2  1.328521 0.010746
+medium prose         best_fixed                   2  1.328521 0.010746
+medium prose    adaptive_oracle           lam=1.379  1.378990 0.014475
+medium prose adaptive_realistic isotonic, lam=1.340  1.334173 0.010073
+medium maths            no_spec                   0  1.000000 0.000000
+medium maths            fixed_4                   4  1.222128 0.004327
+medium maths           landmark                   2  1.354212 0.004016
+medium maths         best_fixed                   2  1.354212 0.004016
+medium maths    adaptive_oracle           lam=1.415  1.429922 0.004651
+medium maths adaptive_realistic logistic, lam=1.353  1.364504 0.004958
+medium  code            no_spec                   0  1.000000 0.000000
+medium  code            fixed_4                   4  1.224703 0.008244
+medium  code           landmark                   2  1.356857 0.006040
+medium  code         best_fixed                   2  1.356857 0.006040
+medium  code    adaptive_oracle           lam=1.434  1.458825 0.011097
+medium  code adaptive_realistic isotonic, lam=1.367  1.382725 0.005401
+[e3] finished in 177.9 s
+== figures
+wrote /Users/tanish/Desktop/prism-research/results/figures/fig1_speedup_curves.png
+wrote /Users/tanish/Desktop/prism-research/results/figures/fig2_alpha_c_plane.png
+wrote /Users/tanish/Desktop/prism-research/results/figures/fig3_variability_gain.png
+wrote /Users/tanish/Desktop/prism-research/results/figures/fig4_trace_example.png
+wrote /Users/tanish/Desktop/prism-research/results/figures/fig5_trace_hist.png
+wrote /Users/tanish/Desktop/prism-research/results/REPORT.md
+== E4 follow-up
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+W1111 15:48:04.567000 53283 .venv/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
+[e4] seeds: {'model_c_fit': 7001, 'model_c_eval': [101, 202, 303, 404, 505], 'e3_split': 42, 'e3_replay': [11, 22, 33, 44, 55]}
+Loading weights:   0%|          | 0/76 [00:00<?, ?it/s]Loading weights: 100%|██████████| 76/76 [00:00<00:00, 11470.16it/s]
+Loading weights:   0%|          | 0/436 [00:00<?, ?it/s]Loading weights: 100%|██████████| 436/436 [00:00<00:00, 7970.63it/s]
+Loading weights:   0%|          | 0/76 [00:00<?, ?it/s]Loading weights: 100%|██████████| 76/76 [00:00<00:00, 8475.37it/s]
+Loading weights:   0%|          | 0/292 [00:00<?, ?it/s]Loading weights: 100%|██████████| 292/292 [00:00<00:00, 8691.25it/s]
+## Follow-up
+
+Produced by `e4_followup.py`, appended after the main report. Every number below is read from that run's output files (`e4_*.csv`, `e4_convexity_check.json`, `timing_verify.csv`, `table3_gpt2_wallclock.*`).
+
+### F1. Model C: naive adaptive rule and hard-state round starts
+
+Naive rule: γ = largest k ≤ 40 with α_state^k ≥ λc, using the state at round start as if it lasted the whole round; λ fitted by fixed-point iteration on the fit seed; evaluated on the same 5 seeds as E2 (best fixed γ reproduces `e2_modelC.csv` exactly: True).
+
+| s | best fixed (γ) | naive adaptive | naive γ easy / hard | naive gain | expected | share of rounds starting hard (best fixed γ) | expected |
+|---|---|---|---|---|---|---|---|
+| 0.01 | 2.043 ± 0.037 (5) | 2.259 ± 0.054 | 40 / 2 | +10.6% | ≈+12% | 75.3% ± 1.3 | ≈77% |
+| 0.05 | 2.062 ± 0.012 (5) | 2.114 ± 0.020 | 40 / 2 | +2.6% | ≈+2% | 74.3% ± 0.4 | ≈75% |
+| 0.2 | 2.121 ± 0.012 (5) | 1.716 ± 0.014 | 40 / 2 | -19.1% | ≈-18% | 68.9% ± 0.4 | ≈69% |
+
+- (a) Naive-rule gain **matches** the expected values (tolerance ±2 percentage points).
+- (b) Hard-start share **matches** the expected values (tolerance ±2 percentage points). The stationary share of *positions* in the hard state is 50%, so rounds over-sample the hard regime.
+- Cap flag: the naive rule's γ hits the cap of 40 at s = 0.01, 0.05, 0.2 (0.95^k ≥ λc holds up to k ≈ 43 at s = 0.01). So in the easy state the naive rule's γ is set by the cap, not by the rule.
+
+### F2. Harmonic-mean prediction for Model C
+
+At the landmark γ = 5 (stationary mean α = 0.675), H = (½/g(0.95) + ½/g(0.4))⁻¹ ÷ (γc + 1) with g(α) = Σ_(k=0..γ) α^k.
+
+| s | landmark | H | simulated fixed-γ | H vs landmark | simulated vs landmark | simulated vs H |
+|---|---|---|---|---|---|---|
+| 0.01 | 2.229 | 2.022 | 2.043 ± 0.037 | -9.3% | -8.3% | +1.0% |
+| 0.05 | 2.229 | 2.022 | 2.062 ± 0.012 | -9.3% | -7.5% | +1.9% |
+| 0.2 | 2.229 | 2.022 | 2.121 ± 0.012 | -9.3% | -4.8% | +4.9% |
+
+- H is 9.3% below the landmark at γ = 5: **matches** the expected ≈9.3% at γ = 5. H is the s → 0 limit (each regime long enough to act as its own stream). As s grows, the simulation moves from H toward the landmark.
+- Convexity check 2g′² − g·g″ ≥ −1e-12 on [0, 1] (100,001 points, γ = 1…60): minimum -1.07e-14 at γ = 52, α = 0.4078 → **passes**. As an exact companion check, every integer coefficient of 2g′² − g·g″ is non-negative for γ = 1…60: True. Because (1/g)″ = (2g′² − g·g″)/g³, 1/g is convex, so by Jensen the harmonic-type average never exceeds the landmark.
+
+### F3. Re-timing of verify passes (one target and the draft loaded at a time)
+
+One cached target pass over m new tokens after a 32-token prefix, 20 repeats after 5 warm-ups. v(m) = mean time ÷ mean time at m = 1.
+
+| m | large: v(m) mean (median) | large: ms | medium: v(m) mean (median) | medium: ms |
+|---|---|---|---|---|
+| 1 | 1.00 (1.00) | 59.1 | 1.00 (1.00) | 22.5 |
+| 2 | 1.51 (1.46) | 89.5 | 1.20 (1.19) | 27.0 |
+| 3 | 1.45 (1.44) | 85.8 | 1.24 (1.23) | 27.9 |
+| 4 | 1.68 (1.53) | 99.5 | 1.24 (1.24) | 27.9 |
+| 5 | 1.51 (1.53) | 89.2 | 1.28 (1.30) | 28.8 |
+| 6 | 2.10 (1.96) | 124.1 | 1.36 (1.37) | 30.6 |
+| 7 | 1.65 (1.60) | 97.3 | 1.32 (1.34) | 29.8 |
+| 8 | 1.65 (1.63) | 97.4 | 1.36 (1.36) | 30.6 |
+| 9 | 1.59 (1.46) | 94.2 | 1.34 (1.35) | 30.2 |
+
+- large: available RAM 1.11 GB before / 0.54 GB after timing; swap used 4.16 → 1.71 GB. First run's 8-token ratio 1.77×; now 1.65×.
+
+- medium: available RAM 1.30 GB before / 2.06 GB after timing; swap used 1.65 → 1.59 GB. First run's 8-token ratio 1.30×; now 1.36×.
+- Memory-pressure hypothesis for the first run's 1.77× (gpt2-large, m = 8): not supported: the isolated ratio is similar (1.65×). This is a comparison, not a test.
+
+### F4. Wall-clock replay (Table 3, second version)
+
+Round cost T = γc + v(γ + 1), with c from `timing.csv` and v(m) from F3 (v(1) = 1). γ is capped at 8 because v is measured only up to m = 9. Best fixed γ, λ and calibrators are re-selected on the training half under this cost. The adaptive rule drafts the k-th token while ∏β ≥ λ·Δ_k, where Δ_k = c + v(k+1) − v(k) is that token's marginal cost. Test half, mean ± SD over 5 replay seeds, in units of one cached target step.
+
+- large: c = 0.123; T(γ) for γ = 0…8: 1.00, 1.64, 1.70, 2.05, 2.00, 2.72, 2.39, 2.51, 2.58
+- medium: c = 0.245; T(γ) for γ = 0…8: 1.00, 1.44, 1.73, 1.97, 2.26, 2.58, 2.79, 3.08, 3.30
+
+| pair | type | c | no_spec | fixed_4 | landmark | best_fixed | adaptive_oracle | adaptive_realistic | landmark_gamma | best_fixed_gamma | realistic_calibrator | realistic_recovery_pct |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| large | code | 0.1232 | 1.000 ± 0.000 | 1.168 ± 0.013 | 1.071 ± 0.008 | 1.164 ± 0.008 | 1.257 ± 0.005 | 1.213 ± 0.004 | 3 | 2 | logistic, lam=1.000 | 52.3 |
+| large | maths | 0.1232 | 1.000 ± 0.000 | 1.147 ± 0.005 | 1.058 ± 0.006 | 1.152 ± 0.003 | 1.213 ± 0.003 | 1.167 ± 0.004 | 3 | 2 | logistic, lam=1.000 | 23.8 |
+| large | prose | 0.1232 | 1.000 ± 0.000 | 1.125 ± 0.005 | 1.040 ± 0.003 | 1.135 ± 0.003 | 1.156 ± 0.002 | 1.102 ± 0.002 | 3 | 2 | logistic, lam=1.110 | -166.5 |
+| medium | code | 0.2452 | 1.000 ± 0.000 | 1.074 ± 0.007 | 1.170 ± 0.005 | 1.170 ± 0.005 | 1.303 ± 0.005 | 1.197 ± 0.006 | 2 | 2 | isotonic, lam=1.193 | 20.4 |
+| medium | maths | 0.2452 | 1.000 ± 0.000 | 1.072 ± 0.004 | 1.168 ± 0.003 | 1.168 ± 0.003 | 1.266 ± 0.004 | 1.182 ± 0.003 | 2 | 2 | isotonic, lam=1.173 | 14.7 |
+| medium | prose | 0.2452 | 1.000 ± 0.000 | 1.044 ± 0.009 | 1.145 ± 0.009 | 1.145 ± 0.009 | 1.216 ± 0.011 | 1.154 ± 0.009 | 2 | 2 | isotonic, lam=1.158 | 12.7 |
+
+Change from the linear-cost Table 3 (best fixed γ and adaptive oracle, test half):
+
+| pair | type | best fixed: linear → wall-clock | adaptive oracle: linear → wall-clock |
+|---|---|---|---|
+| large | prose | 1.556 (γ=3) → 1.135 (γ=2) | 1.622 → 1.156 |
+| large | maths | 1.582 (γ=3) → 1.152 (γ=2) | 1.674 → 1.213 |
+| large | code | 1.602 (γ=3) → 1.164 (γ=2) | 1.722 → 1.257 |
+| medium | prose | 1.329 (γ=2) → 1.145 (γ=2) | 1.379 → 1.216 |
+| medium | maths | 1.354 (γ=2) → 1.168 (γ=2) | 1.430 → 1.266 |
+| medium | code | 1.357 (γ=2) → 1.170 (γ=2) | 1.459 → 1.303 |
+
+- Slower than plain decoding (throughput < 1) under wall-clock cost: none of the policies in any pair/type cell. The re-selected best fixed γ is never slower than plain decoding.
+- Best fixed γ hits the cap of 8 in 0 cell(s).
+
+### F5. Model D with posterior-mean shrinkage
+
+The policy uses E[α | α̂] under the known Beta(7, 3) prior, computed on the 20,001-point α grid. Gaussian likelihood for interior α̂; the clipped endpoints 0.01 and 0.99 are treated as censored. λ is refit per σ on the fit seed; 200k rounds × 5 seeds. The raw-α̂ policy reproduces `e2_modelD.csv` exactly: True.
+
+| σ | raw α̂: throughput | raw: share of oracle gain kept | shrunk: throughput | shrunk: share of oracle gain kept |
+|---|---|---|---|---|
+| 0 | 2.878 ± 0.002 | 100% | 2.878 ± 0.002 | 100% |
+| 0.05 | 2.786 ± 0.002 | 72% | 2.797 ± 0.001 | 75% |
+| 0.1 | 2.615 ± 0.003 | 19% | 2.702 ± 0.001 | 46% |
+| 0.2 | 2.300 ± 0.003 | -79% | 2.596 ± 0.001 | 13% |
+
+Oracle 2.877, best fixed 2.556 (exact, Model A, κ = 10). No expected values were given for this item.
+
+### F6. Figures
+
+No table that `figures.py` reads (e1_*, e2_modelA_main, e3_beta_stats, timing.csv, traces, e3_fig4_example) was changed by this follow-up; E4 writes only new files, so the figures were not regenerated.
+
+E4 runtime: 98 s.
+
+[e4] finished in 98.2 s
+
+REPORT: /Users/tanish/prism-spec/results/REPORT.md
+1. E0: 38/38 theory checks passed.
+2. E2 Model A (m=0.7, c=0.05): adaptive oracle beats best fixed gamma by 12.6% at kappa=10 and 30.0% at kappa=5; landmark underestimates by 14.1% at kappa=5.
+3. E2 Model C/D: state-aware adaptive gains 5.3-13.8%; noisy System 1 keeps 72% of the gain at sigma=0.05, -79% at 0.2.
+4. E3 measured c: large 0.123, medium 0.245; best-fixed speedup 1.33-1.60x on the test half.
+5. E3 oracle gain over best fixed: 3.8-7.5%; realistic System 1 recovers median 26% of it (range 11% to 35%).

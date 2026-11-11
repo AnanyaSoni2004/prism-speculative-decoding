@@ -1,0 +1,17 @@
+{
+  "prose": {
+    "candidates": 2183,
+    "long_enough": 662,
+    "used": 100
+  },
+  "maths": {
+    "candidates": 1319,
+    "long_enough": 558,
+    "used": 100
+  },
+  "code": {
+    "candidates": 164,
+    "long_enough": 133,
+    "used": 100
+  }
+}

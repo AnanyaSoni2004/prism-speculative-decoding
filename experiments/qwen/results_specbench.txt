@@ -1,0 +1,204 @@
+
+===== math_reasoning: 80 passages x 128 tokens, mean beta 0.892
+  c=0.1, v=1.0: best fixed gamma per fold [8, 9], tau [0.75, 0.75], theta [0.35, 0.4], oracle theta [0.35, 0.35], calibrator R^2 (last fold) 0.57
+     fixed      speedup 3.202x   gain over best fixed  +0.0% [+0.0,+0.0]
+     heuristic  speedup 3.195x   gain over best fixed  -0.2% [-0.8,+0.4]
+     pertoken   speedup 3.205x   gain over best fixed  +0.1% [-1.3,+1.6]
+     survival   speedup 3.493x   gain over best fixed  +9.1% [+8.1,+10.1]
+     oracle     speedup 3.602x   gain over best fixed +12.5% [+11.1,+13.9]
+     hindsight  speedup 4.907x   gain over best fixed +53.2% [+52.5,+54.0]
+     share of oracle gain recovered by calibrated survival rule: 73%
+  c=0.2, v=1.0: best fixed gamma per fold [6, 6], tau [0.75, 0.75], theta [0.55, 0.55], oracle theta [0.55, 0.55], calibrator R^2 (last fold) 0.57
+     fixed      speedup 2.265x   gain over best fixed  +0.0% [+0.0,+0.0]
+     heuristic  speedup 2.245x   gain over best fixed  -0.9% [-1.5,-0.2]
+     pertoken   speedup 2.387x   gain over best fixed  +5.4% [+4.0,+6.7]
+     survival   speedup 2.495x   gain over best fixed +10.1% [+9.2,+11.0]
+     oracle     speedup 2.554x   gain over best fixed +12.8% [+11.6,+14.0]
+     hindsight  speedup 3.422x   gain over best fixed +51.1% [+50.2,+51.9]
+     share of oracle gain recovered by calibrated survival rule: 79%
+  c=0.3, v=1.0: best fixed gamma per fold [5, 4], tau [0.8, 0.8], theta [0.7, 0.65], oracle theta [0.6, 0.6], calibrator R^2 (last fold) 0.57
+     fixed      speedup 1.801x   gain over best fixed  +0.0% [+0.0,+0.0]
+     heuristic  speedup 1.731x   gain over best fixed  -3.9% [-4.9,-2.9]
+     pertoken   speedup 1.933x   gain over best fixed  +7.3% [+6.1,+8.4]
+     survival   speedup 1.968x   gain over best fixed  +9.2% [+8.3,+10.2]
+     oracle     speedup 2.037x   gain over best fixed +13.1% [+12.0,+14.2]
+     hindsight  speedup 2.627x   gain over best fixed +45.8% [+44.8,+46.9]
+     share of oracle gain recovered by calibrated survival rule: 71%
+  c=0.66, v=1.2: best fixed gamma per fold [2, 2], tau [0.9, 0.9], theta [0.85, 0.85], oracle theta [0.8, 0.85], calibrator R^2 (last fold) 0.57
+     fixed      speedup 1.063x   gain over best fixed  +0.0% [+0.0,+0.0]
+     heuristic  speedup 0.917x   gain over best fixed -13.7% [-15.2,-12.3]
+     pertoken   speedup 1.135x   gain over best fixed  +6.8% [+6.0,+7.6]
+     survival   speedup 1.137x   gain over best fixed  +7.0% [+6.3,+7.7]
+     oracle     speedup 1.210x   gain over best fixed +13.8% [+13.1,+14.6]
+     hindsight  speedup 1.392x   gain over best fixed +31.0% [+30.3,+31.6]
+     share of oracle gain recovered by calibrated survival rule: 51%
+
+===== mt_bench: 80 passages x 128 tokens, mean beta 0.757
+  c=0.1, v=1.0: best fixed gamma per fold [4, 5], tau [0.65, 0.65], theta [0.35, 0.35], oracle theta [0.25, 0.25], calibrator R^2 (last fold) 0.64
+     fixed      speedup 2.138x   gain over best fixed  +0.0% [+0.0,+0.0]
+     heuristic  speedup 2.139x   gain over best fixed  +0.0% [-1.0,+1.2]
+     pertoken   speedup 2.172x   gain over best fixed  +1.6% [-0.2,+3.6]
+     survival   speedup 2.316x   gain over best fixed  +8.3% [+6.8,+10.1]
+     oracle     speedup 2.393x   gain over best fixed +11.9% [+10.4,+13.6]
+     hindsight  speedup 3.096x   gain over best fixed +44.8% [+42.6,+47.3]
+     share of oracle gain recovered by calibrated survival rule: 70%
+  c=0.2, v=1.0: best fixed gamma per fold [3, 3], tau [0.7, 0.75], theta [0.5, 0.5], oracle theta [0.4, 0.35], calibrator R^2 (last fold) 0.64
+     fixed      speedup 1.688x   gain over best fixed  +0.0% [+0.0,+0.0]
+     heuristic  speedup 1.641x   gain over best fixed  -2.8% [-3.9,-1.5]
+     pertoken   speedup 1.766x   gain over best fixed  +4.7% [+3.1,+6.4]
+     survival   speedup 1.824x   gain over best fixed  +8.1% [+6.7,+9.7]
+     oracle     speedup 1.884x   gain over best fixed +11.6% [+10.2,+13.0]
+     hindsight  speedup 2.511x   gain over best fixed +48.8% [+47.1,+50.6]
+     share of oracle gain recovered by calibrated survival rule: 69%
+  c=0.3, v=1.0: best fixed gamma per fold [2, 2], tau [0.75, 0.75], theta [0.65, 0.6], oracle theta [0.5, 0.5], calibrator R^2 (last fold) 0.64
+     fixed      speedup 1.432x   gain over best fixed  +0.0% [+0.0,+0.0]
+     heuristic  speedup 1.331x   gain over best fixed  -7.0% [-8.3,-5.6]
+     pertoken   speedup 1.535x   gain over best fixed  +7.2% [+5.7,+8.9]
+     survival   speedup 1.546x   gain over best fixed  +7.9% [+6.5,+9.6]
+     oracle     speedup 1.604x   gain over best fixed +12.0% [+10.6,+13.6]
+     hindsight  speedup 2.112x   gain over best fixed +47.5% [+46.2,+49.0]
+     share of oracle gain recovered by calibrated survival rule: 66%
+  c=0.66, v=1.2: best fixed gamma per fold [0, 0], tau [0.9, 0.85], theta [0.85, 0.8], oracle theta [0.8, 0.85], calibrator R^2 (last fold) 0.64
+     fixed      speedup 1.000x   gain over best fixed  +0.0% [+0.0,+0.0]
+     heuristic  speedup 0.754x   gain over best fixed -24.6% [-26.6,-22.5]
+     pertoken   speedup 0.981x   gain over best fixed  -1.9% [-4.0,+0.3]
+     survival   speedup 0.983x   gain over best fixed  -1.7% [-3.8,+0.6]
+     oracle     speedup 1.099x   gain over best fixed  +9.9% [+8.5,+11.5]
+     hindsight  speedup 1.286x   gain over best fixed +28.6% [+27.0,+30.2]
+     share of oracle gain recovered by calibrated survival rule: -17%
+
+===== qa: 80 passages x 128 tokens, mean beta 0.656
+  c=0.1, v=1.0: best fixed gamma per fold [4, 4], tau [0.55, 0.6], theta [0.3, 0.3], oracle theta [0.15, 0.2], calibrator R^2 (last fold) 0.57
+     fixed      speedup 1.824x   gain over best fixed  +0.0% [+0.0,+0.0]
+     heuristic  speedup 1.760x   gain over best fixed  -3.5% [-3.9,-3.2]
+     pertoken   speedup 1.821x   gain over best fixed  -0.2% [-1.0,+0.6]
+     survival   speedup 1.904x   gain over best fixed  +4.4% [+3.9,+4.9]
+     oracle     speedup 1.967x   gain over best fixed  +7.8% [+7.1,+8.6]
+     hindsight  speedup 2.457x   gain over best fixed +34.7% [+34.0,+35.4]
+     share of oracle gain recovered by calibrated survival rule: 56%
+  c=0.2, v=1.0: best fixed gamma per fold [2, 2], tau [0.65, 0.65], theta [0.5, 0.45], oracle theta [0.3, 0.3], calibrator R^2 (last fold) 0.57
+     fixed      speedup 1.487x   gain over best fixed  +0.0% [+0.0,+0.0]
+     heuristic  speedup 1.409x   gain over best fixed  -5.3% [-5.6,-4.9]
+     pertoken   speedup 1.540x   gain over best fixed  +3.6% [+2.8,+4.4]
+     survival   speedup 1.560x   gain over best fixed  +4.9% [+4.3,+5.5]
+     oracle     speedup 1.641x   gain over best fixed +10.4% [+9.5,+11.3]
+     hindsight  speedup 2.115x   gain over best fixed +42.2% [+41.3,+43.2]
+     share of oracle gain recovered by calibrated survival rule: 47%
+  c=0.3, v=1.0: best fixed gamma per fold [2, 2], tau [0.8, 0.75], theta [0.6, 0.65], oracle theta [0.4, 0.45], calibrator R^2 (last fold) 0.57
+     fixed      speedup 1.302x   gain over best fixed  +0.0% [+0.0,+0.0]
+     heuristic  speedup 1.174x   gain over best fixed  -9.8% [-10.1,-9.5]
+     pertoken   speedup 1.356x   gain over best fixed  +4.2% [+3.5,+4.9]
+     survival   speedup 1.362x   gain over best fixed  +4.7% [+4.1,+5.2]
+     oracle     speedup 1.438x   gain over best fixed +10.5% [+9.7,+11.3]
+     hindsight  speedup 1.856x   gain over best fixed +42.6% [+42.0,+43.2]
+     share of oracle gain recovered by calibrated survival rule: 45%
+  c=0.66, v=1.2: best fixed gamma per fold [0, 0], tau [0.9, 0.9], theta [0.85, 0.85], oracle theta [0.8, 0.8], calibrator R^2 (last fold) 0.57
+     fixed      speedup 1.000x   gain over best fixed  +0.0% [+0.0,+0.0]
+     heuristic  speedup 0.691x   gain over best fixed -30.9% [-31.4,-30.4]
+     pertoken   speedup 0.900x   gain over best fixed -10.0% [-10.7,-9.2]
+     survival   speedup 0.900x   gain over best fixed -10.0% [-10.7,-9.3]
+     oracle     speedup 1.056x   gain over best fixed  +5.6% [+5.1,+6.1]
+     hindsight  speedup 1.221x   gain over best fixed +22.1% [+21.5,+22.7]
+     share of oracle gain recovered by calibrated survival rule: -178%
+
+===== rag: 80 passages x 128 tokens, mean beta 0.710
+  c=0.1, v=1.0: best fixed gamma per fold [4, 4], tau [0.6, 0.6], theta [0.35, 0.3], oracle theta [0.25, 0.2], calibrator R^2 (last fold) 0.58
+     fixed      speedup 1.975x   gain over best fixed  +0.0% [+0.0,+0.0]
+     heuristic  speedup 1.925x   gain over best fixed  -2.5% [-2.9,-2.1]
+     pertoken   speedup 1.997x   gain over best fixed  +1.1% [+0.1,+2.3]
+     survival   speedup 2.093x   gain over best fixed  +6.0% [+5.2,+6.8]
+     oracle     speedup 2.172x   gain over best fixed +10.0% [+9.1,+10.9]
+     hindsight  speedup 2.752x   gain over best fixed +39.4% [+38.2,+40.7]
+     share of oracle gain recovered by calibrated survival rule: 60%
+  c=0.2, v=1.0: best fixed gamma per fold [3, 3], tau [0.7, 0.65], theta [0.45, 0.45], oracle theta [0.4, 0.35], calibrator R^2 (last fold) 0.58
+     fixed      speedup 1.583x   gain over best fixed  +0.0% [+0.0,+0.0]
+     heuristic  speedup 1.506x   gain over best fixed  -4.9% [-5.3,-4.4]
+     pertoken   speedup 1.652x   gain over best fixed  +4.4% [+3.4,+5.3]
+     survival   speedup 1.688x   gain over best fixed  +6.7% [+6.0,+7.3]
+     oracle     speedup 1.762x   gain over best fixed +11.4% [+10.4,+12.4]
+     hindsight  speedup 2.304x   gain over best fixed +45.6% [+44.7,+46.5]
+     share of oracle gain recovered by calibrated survival rule: 59%
+  c=0.3, v=1.0: best fixed gamma per fold [2, 2], tau [0.7, 0.7], theta [0.65, 0.6], oracle theta [0.45, 0.4], calibrator R^2 (last fold) 0.58
+     fixed      speedup 1.371x   gain over best fixed  +0.0% [+0.0,+0.0]
+     heuristic  speedup 1.236x   gain over best fixed  -9.9% [-10.2,-9.5]
+     pertoken   speedup 1.452x   gain over best fixed  +5.9% [+5.1,+6.7]
+     survival   speedup 1.453x   gain over best fixed  +6.0% [+5.3,+6.7]
+     oracle     speedup 1.525x   gain over best fixed +11.2% [+10.4,+12.1]
+     hindsight  speedup 1.981x   gain over best fixed +44.4% [+43.7,+45.2]
+     share of oracle gain recovered by calibrated survival rule: 53%
+  c=0.66, v=1.2: best fixed gamma per fold [0, 0], tau [0.85, 0.9], theta [0.85, 0.8], oracle theta [0.8, 0.8], calibrator R^2 (last fold) 0.58
+     fixed      speedup 1.000x   gain over best fixed  +0.0% [+0.0,+0.0]
+     heuristic  speedup 0.712x   gain over best fixed -28.8% [-29.4,-28.2]
+     pertoken   speedup 0.943x   gain over best fixed  -5.7% [-6.8,-4.6]
+     survival   speedup 0.942x   gain over best fixed  -5.8% [-6.9,-4.7]
+     oracle     speedup 1.085x   gain over best fixed  +8.5% [+7.7,+9.2]
+     hindsight  speedup 1.253x   gain over best fixed +25.3% [+24.4,+26.2]
+     share of oracle gain recovered by calibrated survival rule: -69%
+
+===== summarization: 80 passages x 128 tokens, mean beta 0.699
+  c=0.1, v=1.0: best fixed gamma per fold [4, 4], tau [0.6, 0.6], theta [0.3, 0.35], oracle theta [0.2, 0.2], calibrator R^2 (last fold) 0.63
+     fixed      speedup 1.940x   gain over best fixed  +0.0% [+0.0,+0.0]
+     heuristic  speedup 1.869x   gain over best fixed  -3.7% [-4.0,-3.3]
+     pertoken   speedup 1.930x   gain over best fixed  -0.5% [-1.4,+0.4]
+     survival   speedup 2.033x   gain over best fixed  +4.8% [+4.2,+5.5]
+     oracle     speedup 2.098x   gain over best fixed  +8.2% [+7.5,+8.9]
+     hindsight  speedup 2.660x   gain over best fixed +37.1% [+36.1,+38.2]
+     share of oracle gain recovered by calibrated survival rule: 59%
+  c=0.2, v=1.0: best fixed gamma per fold [3, 3], tau [0.7, 0.65], theta [0.45, 0.5], oracle theta [0.35, 0.35], calibrator R^2 (last fold) 0.63
+     fixed      speedup 1.555x   gain over best fixed  +0.0% [+0.0,+0.0]
+     heuristic  speedup 1.474x   gain over best fixed  -5.2% [-5.6,-4.9]
+     pertoken   speedup 1.621x   gain over best fixed  +4.2% [+3.4,+5.1]
+     survival   speedup 1.641x   gain over best fixed  +5.5% [+4.9,+6.2]
+     oracle     speedup 1.716x   gain over best fixed +10.4% [+9.6,+11.2]
+     hindsight  speedup 2.245x   gain over best fixed +44.4% [+43.7,+45.1]
+     share of oracle gain recovered by calibrated survival rule: 54%
+  c=0.3, v=1.0: best fixed gamma per fold [2, 2], tau [0.75, 0.7], theta [0.65, 0.65], oracle theta [0.45, 0.45], calibrator R^2 (last fold) 0.63
+     fixed      speedup 1.353x   gain over best fixed  +0.0% [+0.0,+0.0]
+     heuristic  speedup 1.217x   gain over best fixed -10.1% [-10.4,-9.7]
+     pertoken   speedup 1.422x   gain over best fixed  +5.1% [+4.4,+5.9]
+     survival   speedup 1.426x   gain over best fixed  +5.4% [+4.8,+6.0]
+     oracle     speedup 1.496x   gain over best fixed +10.6% [+9.7,+11.4]
+     hindsight  speedup 1.943x   gain over best fixed +43.6% [+42.9,+44.4]
+     share of oracle gain recovered by calibrated survival rule: 51%
+  c=0.66, v=1.2: best fixed gamma per fold [0, 0], tau [0.85, 0.9], theta [0.8, 0.9], oracle theta [0.8, 0.85], calibrator R^2 (last fold) 0.63
+     fixed      speedup 1.000x   gain over best fixed  +0.0% [+0.0,+0.0]
+     heuristic  speedup 0.706x   gain over best fixed -29.4% [-29.9,-28.8]
+     pertoken   speedup 0.932x   gain over best fixed  -6.8% [-7.8,-5.9]
+     survival   speedup 0.931x   gain over best fixed  -6.9% [-7.8,-6.0]
+     oracle     speedup 1.069x   gain over best fixed  +6.9% [+6.3,+7.5]
+     hindsight  speedup 1.242x   gain over best fixed +24.2% [+23.5,+25.0]
+     share of oracle gain recovered by calibrated survival rule: -100%
+
+===== translation: 80 passages x 128 tokens, mean beta 0.647
+  c=0.1, v=1.0: best fixed gamma per fold [3, 4], tau [0.6, 0.55], theta [0.3, 0.3], oracle theta [0.2, 0.2], calibrator R^2 (last fold) 0.49
+     fixed      speedup 1.765x   gain over best fixed  +0.0% [+0.0,+0.0]
+     heuristic  speedup 1.718x   gain over best fixed  -2.7% [-3.2,-2.2]
+     pertoken   speedup 1.779x   gain over best fixed  +0.8% [-0.2,+1.8]
+     survival   speedup 1.852x   gain over best fixed  +4.9% [+4.3,+5.6]
+     oracle     speedup 1.959x   gain over best fixed +11.0% [+10.2,+11.8]
+     hindsight  speedup 2.378x   gain over best fixed +34.7% [+33.9,+35.6]
+     share of oracle gain recovered by calibrated survival rule: 45%
+  c=0.2, v=1.0: best fixed gamma per fold [2, 2], tau [0.7, 0.65], theta [0.45, 0.45], oracle theta [0.4, 0.3], calibrator R^2 (last fold) 0.49
+     fixed      speedup 1.458x   gain over best fixed  +0.0% [+0.0,+0.0]
+     heuristic  speedup 1.385x   gain over best fixed  -5.0% [-5.4,-4.6]
+     pertoken   speedup 1.509x   gain over best fixed  +3.5% [+2.7,+4.3]
+     survival   speedup 1.527x   gain over best fixed  +4.7% [+4.1,+5.4]
+     oracle     speedup 1.639x   gain over best fixed +12.4% [+11.6,+13.3]
+     hindsight  speedup 2.062x   gain over best fixed +41.5% [+40.7,+42.3]
+     share of oracle gain recovered by calibrated survival rule: 38%
+  c=0.3, v=1.0: best fixed gamma per fold [2, 2], tau [0.8, 0.8], theta [0.6, 0.65], oracle theta [0.45, 0.45], calibrator R^2 (last fold) 0.49
+     fixed      speedup 1.276x   gain over best fixed  +0.0% [+0.0,+0.0]
+     heuristic  speedup 1.160x   gain over best fixed  -9.1% [-9.5,-8.7]
+     pertoken   speedup 1.333x   gain over best fixed  +4.5% [+3.8,+5.1]
+     survival   speedup 1.335x   gain over best fixed  +4.7% [+4.1,+5.2]
+     oracle     speedup 1.455x   gain over best fixed +14.1% [+13.2,+14.9]
+     hindsight  speedup 1.821x   gain over best fixed +42.7% [+42.2,+43.2]
+     share of oracle gain recovered by calibrated survival rule: 33%
+  c=0.66, v=1.2: best fixed gamma per fold [0, 0], tau [0.9, 0.9], theta [0.85, 0.9], oracle theta [0.8, 0.8], calibrator R^2 (last fold) 0.49
+     fixed      speedup 1.000x   gain over best fixed  +0.0% [+0.0,+0.0]
+     heuristic  speedup 0.687x   gain over best fixed -31.3% [-31.7,-30.8]
+     pertoken   speedup 0.881x   gain over best fixed -11.9% [-12.6,-11.2]
+     survival   speedup 0.883x   gain over best fixed -11.7% [-12.3,-11.1]
+     oracle     speedup 1.065x   gain over best fixed  +6.5% [+6.1,+7.0]
+     hindsight  speedup 1.214x   gain over best fixed +21.4% [+20.9,+21.9]
+     share of oracle gain recovered by calibrated survival rule: -180%

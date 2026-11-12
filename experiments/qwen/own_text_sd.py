@@ -76,9 +76,12 @@ def trace(target, draft, ids, n_prompt, temperature, vocab):
     qx = q.gather(1, x[:, None])[:, 0]
     beta = torch.minimum(p, q).sum(-1)
     a = torch.where(px > 0, torch.clamp(qx / px.clamp_min(1e-30), max=1.0), torch.zeros_like(px))
-    ent = -(q * torch.log(q.clamp_min(1e-30))).sum(-1)          # draft entropy (a System-1 signal)
+    # Draft confidence signals for System 1. Under greedy decoding q is one-hot, so they are
+    # taken from the draft's temperature-1 distribution instead.
+    qf = q if temperature > 0 else next_token_probs(draft, ids[:, :-1], 1.0, vocab)[n_prompt - 1:]
+    ent = -(qf * torch.log(qf.clamp_min(1e-30))).sum(-1)
     return dict(beta=beta.cpu().numpy(), a=a.cpu().numpy(),
-                qmax=q.max(-1).values.cpu().numpy(), qent=ent.cpu().numpy())
+                qmax=qf.max(-1).values.cpu().numpy(), qent=ent.cpu().numpy())
 
 
 @torch.no_grad()
@@ -202,9 +205,16 @@ def load_prompts(args, tok):
     """Returns a list of (prompt_ids, reference_ids or None) as 1-D python lists."""
     texts = []
     if args.dataset == "jsonl":                     # Spec-Bench question.jsonl or any {"turns":[..]} / {"prompt":..}
+        mt = {"writing", "roleplay", "reasoning", "math", "coding", "extraction", "stem", "humanities"}
+        seen = {}
         for line in open(args.prompts_file):
             d = json.loads(line)
-            texts.append((d["turns"][0] if "turns" in d else d.get("prompt") or d["question"], None))
+            cat = d.get("category", "all")
+            cat = "mt_bench" if cat in mt else cat          # Spec-Bench's multi-turn set (first turn only)
+            if args.per_category and seen.get(cat, 0) >= args.per_category:
+                continue
+            seen[cat] = seen.get(cat, 0) + 1
+            texts.append((d["turns"][0] if "turns" in d else d.get("prompt") or d["question"], None, cat))
     else:
         from datasets import load_dataset
         if args.dataset == "wikitext":
@@ -219,10 +229,14 @@ def load_prompts(args, tok):
             ds = load_dataset("openai/openai_humaneval", split="test")
             texts = [(p, s) for p, s in zip(ds["prompt"], ds["canonical_solution"])]
     out = []
-    for prompt, ref in texts:
+    for item in texts:
+        prompt, ref, cat = item if len(item) == 3 else (*item, args.dataset)
         if args.chat:
             p_ids = tok.apply_chat_template([{"role": "user", "content": prompt}], add_generation_prompt=True)
+            p_ids = list(p_ids["input_ids"]) if hasattr(p_ids, "keys") else list(p_ids)
             r_ids = None
+            if len(p_ids) > args.max_prompt:                 # too long for the GPU: skip, never truncate
+                continue
         elif ref == "split":                         # running prose: first prompt_len tokens are the prompt
             ids = tok(prompt)["input_ids"]
             if len(ids) < args.prompt_len + args.gen_len:
@@ -231,8 +245,8 @@ def load_prompts(args, tok):
         else:
             p_ids = tok(prompt)["input_ids"][-args.max_prompt:]
             r_ids = tok(ref, add_special_tokens=False)["input_ids"][:args.gen_len] if ref else None
-        out.append((p_ids, r_ids))
-        if len(out) == args.n:
+        out.append((p_ids, r_ids, cat))
+        if len(out) == args.n and not args.per_category:
             break
     return out
 
@@ -243,7 +257,7 @@ def run(target, draft, prompts, args, device, vocab):
     gen = torch.Generator(device=device).manual_seed(args.seed)
     own, ref, e2e = [], [], {g: [] for g in args.e2e_gammas}
     t0 = time.time()
-    for i, (p_ids, r_ids) in enumerate(prompts):
+    for i, (p_ids, r_ids, _cat) in enumerate(prompts):
         prompt = torch.tensor([p_ids], device=device)
         ids = sample_target(target, prompt, args.gen_len, args.temperature, vocab, gen)
         own.append(trace(target, draft, ids, len(p_ids), args.temperature, vocab))
@@ -267,6 +281,7 @@ def main():
     ap.add_argument("--prompts_file")
     ap.add_argument("--chat", action="store_true", help="wrap prompts in the tokenizer's chat template")
     ap.add_argument("--n", type=int, default=100)
+    ap.add_argument("--per_category", type=int, default=0, help="jsonl only: prompts per category (0 = first --n lines)")
     ap.add_argument("--prompt_len", type=int, default=64)
     ap.add_argument("--max_prompt", type=int, default=512)
     ap.add_argument("--gen_len", type=int, default=128)
@@ -300,12 +315,22 @@ def main():
     s_own = summarise(own, args.gammas, args.c, args.seed, e2e, args.gen_len)
     print_summary("OWN TEXT (target-written)", s_own)
     result = dict(args=vars(args), own=s_own)
+    cats = [c for _, _, c in prompts]
+    if len(set(cats)) > 1:                                   # one table per category (Spec-Bench)
+        result["by_category"] = {}
+        for c in sorted(set(cats)):
+            ix = [i for i, x in enumerate(cats) if x == c]
+            sc = summarise([own[i] for i in ix], args.gammas, args.c, args.seed,
+                           {g: [e2e[g][i] for i in ix if i < len(e2e[g])] for g in e2e} if args.e2e_n >= len(prompts) else None,
+                           args.gen_len)
+            print_summary(f"category {c}", sc)
+            result["by_category"][c] = sc
     if ref:
         s_ref = summarise(ref, args.gammas, args.c, args.seed)
         print_summary("REFERENCE TEXT (old method)", s_ref)
         result["reference"] = s_ref
     json.dump(result, open(os.path.join(args.out, "summary.json"), "w"), indent=1)
-    np.savez_compressed(os.path.join(args.out, "traces.npz"),
+    np.savez_compressed(os.path.join(args.out, "traces.npz"), categories=np.array(cats),
                         **{f"own_{k}": np.stack([t[k] for t in own]) for k in own[0]},
                         **({f"ref_{k}": np.array([t[k] for t in ref], dtype=object) for k in ref[0]} if ref else {}))
     print(f"\nsaved to {args.out}/")

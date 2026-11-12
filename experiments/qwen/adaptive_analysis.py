@@ -4,9 +4,10 @@ Usage: python adaptive_analysis.py prose=PATH maths=PATH code=PATH
 Policies (all tuned on one half of the passages, tested on the other, 2-fold):
   fixed      best fixed gamma
   heuristic  Hugging Face style schedule: +2 after a fully accepted round, -1 otherwise
-  per-token  stop at the first draft token whose predicted acceptance < tau      (DISCO-style)
-  survival   draft while the predicted survival probability >= theta, calibrated from
-             draft confidence (max prob, entropy)                                (SpecDec++-style; our rule with estimated A_k)
+  per-token  stop after the first draft token whose predicted acceptance < tau   (DISCO-style)
+  survival   stop after the predicted survival probability falls below theta, calibrated
+             from draft confidence (max prob, entropy)                           (SpecDec++-style; our rule with estimated A_k)
+             Both pay for every draft step they run, including the one that triggers the stop.
   oracle     the same survival rule with the true beta_t
   hindsight  drafts exactly up to the first rejection (unreachable upper bound)
 """
@@ -16,10 +17,13 @@ from sklearn.isotonic import IsotonicRegression
 from sklearn.linear_model import LogisticRegression
 
 CAP, R = 40, 40
+# (c, v): draft cost and cost of verifying 2+ tokens, in target steps. v = 1 is assumption (A2);
+# (0.66, 1.2) is what time_models.py measured for Qwen2.5-0.5B -> 3B on a T4 (see timing.json).
+COSTS = [(0.1, 1.0), (0.2, 1.0), (0.3, 1.0), (0.66, 1.2)]
 rng0 = np.random.default_rng(0)
 
 
-def run_policy(kind, par, acc, pred, c):
+def run_policy(kind, par, acc, pred, c, v=1.0):
     """acc: (R, T) bool accept draws for one passage; pred: (T,) predicted acceptance.
     Returns (tokens, time) summed over the R replays."""
     Rn, T = acc.shape
@@ -33,11 +37,20 @@ def run_policy(kind, par, acc, pred, c):
                 g = min(par, room)
             elif kind == "heuristic":
                 g = min(g_state, room)
-            elif kind == "pertoken":
+            elif kind == "pertoken":          # stop after the first low-confidence token (it is kept: already paid for)
                 g = 0
-                while g < room and pred[t + g] >= par:
+                while g < room:
                     g += 1
-            elif kind == "survival":
+                    if pred[t + g - 1] < par:
+                        break
+            elif kind == "survival_cal":      # same, on the running product of predicted acceptances
+                g, s = 0, 1.0
+                while g < room:
+                    s *= pred[t + g]
+                    g += 1
+                    if s < par:
+                        break
+            elif kind == "survival":          # oracle form: knows beta before drafting, so no step is wasted
                 g, s = 0, 1.0
                 while g < room:
                     s *= pred[t + g]
@@ -54,13 +67,14 @@ def run_policy(kind, par, acc, pred, c):
             if kind == "heuristic":
                 g_state = min(CAP, g_state + 2) if (k == g and g > 0) else max(1, g_state - 1)
             tokens += k + 1
-            time += g * c + 1
+            time += g * c + (1.0 if g == 0 else v)
             t += k + 1
     return tokens, time
 
 
 def evaluate(kind, par, idx, ACC, PRED, c):
-    res = np.array([run_policy(kind, par, ACC[i], PRED[i] if PRED is not None else None, c) for i in idx])
+    c, v = c
+    res = np.array([run_policy(kind, par, ACC[i], PRED[i] if PRED is not None else None, c, v) for i in idx])
     return res  # (n, 2)
 
 
@@ -112,7 +126,7 @@ def analyse(name, path):
         print(f"  exact replay, first 30 passages, gamma={g}: {per[:,0].sum()/per[:,1].sum():.3f} "
               f"[{np.percentile(bs,2.5):.3f},{np.percentile(bs,97.5):.3f}]")
 
-    for c in (0.1, 0.2, 0.3):
+    for c in COSTS:
         out = {k: [] for k in ("fixed", "heuristic", "pertoken", "survival", "oracle", "hindsight")}
         chosen = []
         for tr, te in (folds, folds[::-1]):
@@ -129,19 +143,19 @@ def analyse(name, path):
             thetas = np.r_[0.02, 0.05, np.arange(0.1, 0.96, 0.05)]
             gf = tune("fixed", range(0, 21), tr, ACC, None, c)
             tau = tune("pertoken", thetas, tr, ACC, P, c)
-            th = tune("survival", thetas, tr, ACC, P, c)
+            th = tune("survival_cal", thetas, tr, ACC, P, c)
             tho = tune("survival", thetas, tr, ACC, beta, c)
             chosen.append((gf, round(float(tau), 2), round(float(th), 2), round(float(tho), 2)))
             out["fixed"].append(evaluate("fixed", gf, te, ACC, None, c))
             out["heuristic"].append(evaluate("heuristic", None, te, ACC, None, c))
             out["pertoken"].append(evaluate("pertoken", tau, te, ACC, P, c))
-            out["survival"].append(evaluate("survival", th, te, ACC, P, c))
+            out["survival"].append(evaluate("survival_cal", th, te, ACC, P, c))
             out["oracle"].append(evaluate("survival", tho, te, ACC, beta, c))
             out["hindsight"].append(evaluate("hindsight", None, te, ACC, None, c))
             r2 = 1 - ((P[te] - beta[te]) ** 2).mean() / beta[te].var()
         out = {k: np.concatenate(v) for k, v in out.items()}
         b = out["fixed"]
-        print(f"  c={c}: best fixed gamma per fold {[x[0] for x in chosen]}, tau {[x[1] for x in chosen]}, "
+        print(f"  c={c[0]}, v={c[1]}: best fixed gamma per fold {[x[0] for x in chosen]}, tau {[x[1] for x in chosen]}, "
               f"theta {[x[2] for x in chosen]}, oracle theta {[x[3] for x in chosen]}, calibrator R^2 (last fold) {r2:.2f}")
         og = None
         for k in ("fixed", "heuristic", "pertoken", "survival", "oracle", "hindsight"):
